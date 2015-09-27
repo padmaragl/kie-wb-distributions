@@ -1623,12 +1623,62 @@
             <!-- Use different classifier for "-Dproductized" builds, to be able
                  to clearly differentiate between community and productized build
                  (they will have different classifier). -->
-            <plugin>
+<!--            <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-war-plugin</artifactId>
               <configuration>
                 <classifier>redhat</classifier>
               </configuration>
+            </plugin>-->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!--
+                Enable support for non-bundle packaging types
+                See: http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html
+            -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                        <configuration>
+                            <instructions>
+                                <Bundle-SymbolicName>kie-drools-wb-webapp</Bundle-SymbolicName>
+                                <Export-Package/>
+                                <Import-Package>javax.servlet,javax.servlet.http,javax.servlet.*,javax.servlet.jsp.*,javax.servlet.jsp.jstl.*</Import-Package>
+                                <DynamicImport-Package>javax.*, org.xml.sax, org.xml.sax.*, org.w3c.*</DynamicImport-Package>
+                                <Bundle-ClassPath>.,WEB-INF/classes</Bundle-ClassPath>
+                                <Embed-Directory>WEB-INF/lib</Embed-Directory>
+                                <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+                                <Embed-Transitive>true</Embed-Transitive>
+                                <Web-ContextPath>kie-drools-wb</Web-ContextPath>
+                                <Webapp-Context>kie-drools-wb</Webapp-Context>
+                            </instructions>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <supportedProjectTypes>
+                        <supportedProjectType>jar</supportedProjectType>
+                        <supportedProjectType>bundle</supportedProjectType>
+                        <supportedProjectType>war</supportedProjectType>
+                    </supportedProjectTypes>
+                    <instructions>
+                        <!-- ... etc ... -->
+                    </instructions>
+                </configuration>
             </plugin>
           </plugins>
         </pluginManagement>
