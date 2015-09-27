@@ -1630,14 +1630,14 @@
                 <classifier>redhat</classifier>
               </configuration>
             </plugin>-->
-            <plugin>
+<!--            <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <archive>
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
-            </plugin>
+            </plugin>-->
             <!--
                 Enable support for non-bundle packaging types
                 See: http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html
